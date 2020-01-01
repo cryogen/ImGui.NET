@@ -2088,6 +2088,63 @@ namespace ImGuiNET
         {
             ImGuiNative.igDestroyContext(ctx);
         }
+        public static void DestroyPlatformWindows()
+        {
+            ImGuiNative.igDestroyPlatformWindows();
+        }
+        public static void DockSpace(uint id)
+        {
+            Vector2 size = new Vector2();
+            ImGuiDockNodeFlags flags = 0;
+            ImGuiWindowClass* window_class = null;
+            ImGuiNative.igDockSpace(id, size, flags, window_class);
+        }
+        public static void DockSpace(uint id, Vector2 size)
+        {
+            ImGuiDockNodeFlags flags = 0;
+            ImGuiWindowClass* window_class = null;
+            ImGuiNative.igDockSpace(id, size, flags, window_class);
+        }
+        public static void DockSpace(uint id, Vector2 size, ImGuiDockNodeFlags flags)
+        {
+            ImGuiWindowClass* window_class = null;
+            ImGuiNative.igDockSpace(id, size, flags, window_class);
+        }
+        public static void DockSpace(uint id, Vector2 size, ImGuiDockNodeFlags flags, ImGuiWindowClassPtr window_class)
+        {
+            ImGuiWindowClass* native_window_class = window_class.NativePtr;
+            ImGuiNative.igDockSpace(id, size, flags, native_window_class);
+        }
+        public static uint DockSpaceOverViewport()
+        {
+            ImGuiViewport* viewport = null;
+            ImGuiDockNodeFlags flags = 0;
+            ImGuiWindowClass* window_class = null;
+            uint ret = ImGuiNative.igDockSpaceOverViewport(viewport, flags, window_class);
+            return ret;
+        }
+        public static uint DockSpaceOverViewport(ImGuiViewportPtr viewport)
+        {
+            ImGuiViewport* native_viewport = viewport.NativePtr;
+            ImGuiDockNodeFlags flags = 0;
+            ImGuiWindowClass* window_class = null;
+            uint ret = ImGuiNative.igDockSpaceOverViewport(native_viewport, flags, window_class);
+            return ret;
+        }
+        public static uint DockSpaceOverViewport(ImGuiViewportPtr viewport, ImGuiDockNodeFlags flags)
+        {
+            ImGuiViewport* native_viewport = viewport.NativePtr;
+            ImGuiWindowClass* window_class = null;
+            uint ret = ImGuiNative.igDockSpaceOverViewport(native_viewport, flags, window_class);
+            return ret;
+        }
+        public static uint DockSpaceOverViewport(ImGuiViewportPtr viewport, ImGuiDockNodeFlags flags, ImGuiWindowClassPtr window_class)
+        {
+            ImGuiViewport* native_viewport = viewport.NativePtr;
+            ImGuiWindowClass* native_window_class = window_class.NativePtr;
+            uint ret = ImGuiNative.igDockSpaceOverViewport(native_viewport, flags, native_window_class);
+            return ret;
+        }
         public static bool DragFloat(string label, ref float v)
         {
             byte* native_label;
@@ -5093,7 +5150,7 @@ namespace ImGuiNET
                 }
             }
         }
-        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr v, float v_speed)
+        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr p_data, float v_speed)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5113,19 +5170,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* v_min = null;
-            void* v_max = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* p_min = null;
+            void* p_max = null;
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_v, v_speed, v_min, v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_p_data, v_speed, p_min, p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr v, float v_speed, IntPtr v_min)
+        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr p_data, float v_speed, IntPtr p_min)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5145,19 +5202,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* v_max = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* p_max = null;
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_v, v_speed, native_v_min, v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_p_data, v_speed, native_p_min, p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr v, float v_speed, IntPtr v_min, IntPtr v_max)
+        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr p_data, float v_speed, IntPtr p_min, IntPtr p_max)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5177,19 +5234,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_v, v_speed, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_p_data, v_speed, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr v, float v_speed, IntPtr v_min, IntPtr v_max, string format)
+        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr p_data, float v_speed, IntPtr p_min, IntPtr p_max, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5209,9 +5266,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -5231,7 +5288,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_v, v_speed, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_p_data, v_speed, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -5242,7 +5299,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr v, float v_speed, IntPtr v_min, IntPtr v_max, string format, float power)
+        public static bool DragScalar(string label, ImGuiDataType data_type, IntPtr p_data, float v_speed, IntPtr p_min, IntPtr p_max, string format, float power)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5262,9 +5319,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -5283,7 +5340,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_v, v_speed, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalar(native_label, data_type, native_p_data, v_speed, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -5294,7 +5351,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, float v_speed)
+        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, float v_speed)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5314,19 +5371,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* v_min = null;
-            void* v_max = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* p_min = null;
+            void* p_max = null;
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_v, components, v_speed, v_min, v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_p_data, components, v_speed, p_min, p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, float v_speed, IntPtr v_min)
+        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, float v_speed, IntPtr p_min)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5346,19 +5403,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* v_max = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* p_max = null;
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_v, components, v_speed, native_v_min, v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_p_data, components, v_speed, native_p_min, p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, float v_speed, IntPtr v_min, IntPtr v_max)
+        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, float v_speed, IntPtr p_min, IntPtr p_max)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5378,19 +5435,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_v, components, v_speed, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_p_data, components, v_speed, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, float v_speed, IntPtr v_min, IntPtr v_max, string format)
+        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, float v_speed, IntPtr p_min, IntPtr p_max, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5410,9 +5467,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -5432,7 +5489,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             float power = 1.0f;
-            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_v, components, v_speed, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_p_data, components, v_speed, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -5443,7 +5500,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, float v_speed, IntPtr v_min, IntPtr v_max, string format, float power)
+        public static bool DragScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, float v_speed, IntPtr p_min, IntPtr p_max, string format, float power)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -5463,9 +5520,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -5484,7 +5541,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_v, components, v_speed, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igDragScalarN(native_label, data_type, native_p_data, components, v_speed, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -5559,9 +5616,26 @@ namespace ImGuiNET
         {
             ImGuiNative.igEndTooltip();
         }
+        public static ImGuiViewportPtr FindViewportByID(uint id)
+        {
+            ImGuiViewport* ret = ImGuiNative.igFindViewportByID(id);
+            return new ImGuiViewportPtr(ret);
+        }
+        public static ImGuiViewportPtr FindViewportByPlatformHandle(IntPtr platform_handle)
+        {
+            void* native_platform_handle = (void*)platform_handle.ToPointer();
+            ImGuiViewport* ret = ImGuiNative.igFindViewportByPlatformHandle(native_platform_handle);
+            return new ImGuiViewportPtr(ret);
+        }
         public static ImDrawListPtr GetBackgroundDrawList()
         {
             ImDrawList* ret = ImGuiNative.igGetBackgroundDrawList();
+            return new ImDrawListPtr(ret);
+        }
+        public static ImDrawListPtr GetBackgroundDrawList(ImGuiViewportPtr viewport)
+        {
+            ImGuiViewport* native_viewport = viewport.NativePtr;
+            ImDrawList* ret = ImGuiNative.igGetBackgroundDrawListViewportPtr(native_viewport);
             return new ImDrawListPtr(ret);
         }
         public static string GetClipboardText()
@@ -5697,6 +5771,12 @@ namespace ImGuiNET
             ImDrawList* ret = ImGuiNative.igGetForegroundDrawList();
             return new ImDrawListPtr(ret);
         }
+        public static ImDrawListPtr GetForegroundDrawList(ImGuiViewportPtr viewport)
+        {
+            ImGuiViewport* native_viewport = viewport.NativePtr;
+            ImDrawList* ret = ImGuiNative.igGetForegroundDrawListViewportPtr(native_viewport);
+            return new ImDrawListPtr(ret);
+        }
         public static int GetFrameCount()
         {
             int ret = ImGuiNative.igGetFrameCount();
@@ -5775,6 +5855,11 @@ namespace ImGuiNET
             int ret = ImGuiNative.igGetKeyPressedAmount(key_index, repeat_delay, rate);
             return ret;
         }
+        public static ImGuiViewportPtr GetMainViewport()
+        {
+            ImGuiViewport* ret = ImGuiNative.igGetMainViewport();
+            return new ImGuiViewportPtr(ret);
+        }
         public static ImGuiMouseCursor GetMouseCursor()
         {
             ImGuiMouseCursor ret = ImGuiNative.igGetMouseCursor();
@@ -5807,6 +5892,11 @@ namespace ImGuiNET
         {
             Vector2 ret = ImGuiNative.igGetMousePosOnOpeningCurrentPopup();
             return ret;
+        }
+        public static ImGuiPlatformIOPtr GetPlatformIO()
+        {
+            ImGuiPlatformIO* ret = ImGuiNative.igGetPlatformIO();
+            return new ImGuiPlatformIOPtr(ret);
         }
         public static float GetScrollMaxX()
         {
@@ -5888,6 +5978,16 @@ namespace ImGuiNET
             float ret = ImGuiNative.igGetWindowContentRegionWidth();
             return ret;
         }
+        public static uint GetWindowDockID()
+        {
+            uint ret = ImGuiNative.igGetWindowDockID();
+            return ret;
+        }
+        public static float GetWindowDpiScale()
+        {
+            float ret = ImGuiNative.igGetWindowDpiScale();
+            return ret;
+        }
         public static ImDrawListPtr GetWindowDrawList()
         {
             ImDrawList* ret = ImGuiNative.igGetWindowDrawList();
@@ -5907,6 +6007,11 @@ namespace ImGuiNET
         {
             Vector2 ret = ImGuiNative.igGetWindowSize();
             return ret;
+        }
+        public static ImGuiViewportPtr GetWindowViewport()
+        {
+            ImGuiViewport* ret = ImGuiNative.igGetWindowViewport();
+            return new ImGuiViewportPtr(ret);
         }
         public static float GetWindowWidth()
         {
@@ -7278,7 +7383,7 @@ namespace ImGuiNET
                 return ret != 0;
             }
         }
-        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr v)
+        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr p_data)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7298,19 +7403,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* step = null;
-            void* step_fast = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* p_step = null;
+            void* p_step_fast = null;
             byte* native_format = null;
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_v, step, step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_p_data, p_step, p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr step)
+        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_step)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7330,19 +7435,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* step_fast = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* p_step_fast = null;
             byte* native_format = null;
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_v, native_step, step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_p_data, native_p_step, p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr step, IntPtr step_fast)
+        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_step, IntPtr p_step_fast)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7362,19 +7467,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* native_step_fast = (void*)step_fast.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* native_p_step_fast = (void*)p_step_fast.ToPointer();
             byte* native_format = null;
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_v, native_step, native_step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_p_data, native_p_step, native_p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr step, IntPtr step_fast, string format)
+        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_step, IntPtr p_step_fast, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7394,9 +7499,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* native_step_fast = (void*)step_fast.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* native_p_step_fast = (void*)p_step_fast.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -7416,7 +7521,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_v, native_step, native_step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_p_data, native_p_step, native_p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -7427,7 +7532,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr step, IntPtr step_fast, string format, ImGuiInputTextFlags flags)
+        public static bool InputScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_step, IntPtr p_step_fast, string format, ImGuiInputTextFlags flags)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7447,9 +7552,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* native_step_fast = (void*)step_fast.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* native_p_step_fast = (void*)p_step_fast.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -7468,7 +7573,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_v, native_step, native_step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalar(native_label, data_type, native_p_data, native_p_step, native_p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -7479,7 +7584,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr v, int components)
+        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7499,19 +7604,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* step = null;
-            void* step_fast = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* p_step = null;
+            void* p_step_fast = null;
             byte* native_format = null;
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_v, components, step, step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_p_data, components, p_step, p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr step)
+        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_step)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7531,19 +7636,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* step_fast = null;
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* p_step_fast = null;
             byte* native_format = null;
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_v, components, native_step, step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_p_data, components, native_p_step, p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr step, IntPtr step_fast)
+        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_step, IntPtr p_step_fast)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7563,19 +7668,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* native_step_fast = (void*)step_fast.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* native_p_step_fast = (void*)p_step_fast.ToPointer();
             byte* native_format = null;
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_v, components, native_step, native_step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_p_data, components, native_p_step, native_p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr step, IntPtr step_fast, string format)
+        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_step, IntPtr p_step_fast, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7595,9 +7700,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* native_step_fast = (void*)step_fast.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* native_p_step_fast = (void*)p_step_fast.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -7617,7 +7722,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             ImGuiInputTextFlags flags = 0;
-            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_v, components, native_step, native_step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_p_data, components, native_p_step, native_p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -7628,7 +7733,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr step, IntPtr step_fast, string format, ImGuiInputTextFlags flags)
+        public static bool InputScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_step, IntPtr p_step_fast, string format, ImGuiInputTextFlags flags)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -7648,9 +7753,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_step = (void*)step.ToPointer();
-            void* native_step_fast = (void*)step_fast.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_step = (void*)p_step.ToPointer();
+            void* native_p_step_fast = (void*)p_step_fast.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -7669,7 +7774,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_v, components, native_step, native_step_fast, native_format, flags);
+            byte ret = ImGuiNative.igInputScalarN(native_label, data_type, native_p_data, components, native_p_step, native_p_step_fast, native_format, flags);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -8070,6 +8175,11 @@ namespace ImGuiNET
             byte ret = ImGuiNative.igIsItemHovered(flags);
             return ret != 0;
         }
+        public static bool IsItemToggledOpen()
+        {
+            byte ret = ImGuiNative.igIsItemToggledOpen();
+            return ret != 0;
+        }
         public static bool IsItemVisible()
         {
             byte ret = ImGuiNative.igIsItemVisible();
@@ -8213,6 +8323,11 @@ namespace ImGuiNET
         public static bool IsWindowCollapsed()
         {
             byte ret = ImGuiNative.igIsWindowCollapsed();
+            return ret != 0;
+        }
+        public static bool IsWindowDocked()
+        {
+            byte ret = ImGuiNative.igIsWindowDocked();
             return ret != 0;
         }
         public static bool IsWindowFocused()
@@ -9978,6 +10093,24 @@ namespace ImGuiNET
         {
             ImGuiNative.igRender();
         }
+        public static void RenderPlatformWindowsDefault()
+        {
+            void* platform_arg = null;
+            void* renderer_arg = null;
+            ImGuiNative.igRenderPlatformWindowsDefault(platform_arg, renderer_arg);
+        }
+        public static void RenderPlatformWindowsDefault(IntPtr platform_arg)
+        {
+            void* native_platform_arg = (void*)platform_arg.ToPointer();
+            void* renderer_arg = null;
+            ImGuiNative.igRenderPlatformWindowsDefault(native_platform_arg, renderer_arg);
+        }
+        public static void RenderPlatformWindowsDefault(IntPtr platform_arg, IntPtr renderer_arg)
+        {
+            void* native_platform_arg = (void*)platform_arg.ToPointer();
+            void* native_renderer_arg = (void*)renderer_arg.ToPointer();
+            ImGuiNative.igRenderPlatformWindowsDefault(native_platform_arg, native_renderer_arg);
+        }
         public static void ResetMouseDragDelta()
         {
             int button = 0;
@@ -10411,6 +10544,11 @@ namespace ImGuiNET
         {
             ImGuiNative.igSetNextWindowBgAlpha(alpha);
         }
+        public static void SetNextWindowClass(ImGuiWindowClassPtr window_class)
+        {
+            ImGuiWindowClass* native_window_class = window_class.NativePtr;
+            ImGuiNative.igSetNextWindowClass(native_window_class);
+        }
         public static void SetNextWindowCollapsed(bool collapsed)
         {
             byte native_collapsed = collapsed ? (byte)1 : (byte)0;
@@ -10425,6 +10563,15 @@ namespace ImGuiNET
         public static void SetNextWindowContentSize(Vector2 size)
         {
             ImGuiNative.igSetNextWindowContentSize(size);
+        }
+        public static void SetNextWindowDockID(uint dock_id)
+        {
+            ImGuiCond cond = 0;
+            ImGuiNative.igSetNextWindowDockID(dock_id, cond);
+        }
+        public static void SetNextWindowDockID(uint dock_id, ImGuiCond cond)
+        {
+            ImGuiNative.igSetNextWindowDockID(dock_id, cond);
         }
         public static void SetNextWindowFocus()
         {
@@ -10469,6 +10616,10 @@ namespace ImGuiNET
         {
             void* native_custom_callback_data = (void*)custom_callback_data.ToPointer();
             ImGuiNative.igSetNextWindowSizeConstraints(size_min, size_max, custom_callback, native_custom_callback_data);
+        }
+        public static void SetNextWindowViewport(uint viewport_id)
+        {
+            ImGuiNative.igSetNextWindowViewport(viewport_id);
         }
         public static void SetScrollFromPosX(float local_x)
         {
@@ -12113,7 +12264,7 @@ namespace ImGuiNET
                 return ret != 0;
             }
         }
-        public static bool SliderScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr v_min, IntPtr v_max)
+        public static bool SliderScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_min, IntPtr p_max)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -12133,19 +12284,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igSliderScalar(native_label, data_type, native_v, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igSliderScalar(native_label, data_type, native_p_data, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool SliderScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr v_min, IntPtr v_max, string format)
+        public static bool SliderScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_min, IntPtr p_max, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -12165,9 +12316,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -12187,7 +12338,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             float power = 1.0f;
-            byte ret = ImGuiNative.igSliderScalar(native_label, data_type, native_v, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igSliderScalar(native_label, data_type, native_p_data, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -12198,7 +12349,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool SliderScalar(string label, ImGuiDataType data_type, IntPtr v, IntPtr v_min, IntPtr v_max, string format, float power)
+        public static bool SliderScalar(string label, ImGuiDataType data_type, IntPtr p_data, IntPtr p_min, IntPtr p_max, string format, float power)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -12218,9 +12369,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -12239,7 +12390,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igSliderScalar(native_label, data_type, native_v, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igSliderScalar(native_label, data_type, native_p_data, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -12250,7 +12401,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool SliderScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr v_min, IntPtr v_max)
+        public static bool SliderScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_min, IntPtr p_max)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -12270,19 +12421,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igSliderScalarN(native_label, data_type, native_v, components, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igSliderScalarN(native_label, data_type, native_p_data, components, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool SliderScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr v_min, IntPtr v_max, string format)
+        public static bool SliderScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_min, IntPtr p_max, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -12302,9 +12453,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -12324,7 +12475,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             float power = 1.0f;
-            byte ret = ImGuiNative.igSliderScalarN(native_label, data_type, native_v, components, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igSliderScalarN(native_label, data_type, native_p_data, components, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -12335,7 +12486,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool SliderScalarN(string label, ImGuiDataType data_type, IntPtr v, int components, IntPtr v_min, IntPtr v_max, string format, float power)
+        public static bool SliderScalarN(string label, ImGuiDataType data_type, IntPtr p_data, int components, IntPtr p_min, IntPtr p_max, string format, float power)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -12355,9 +12506,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -12376,7 +12527,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igSliderScalarN(native_label, data_type, native_v, components, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igSliderScalarN(native_label, data_type, native_p_data, components, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -12864,6 +13015,10 @@ namespace ImGuiNET
         {
             ImGuiNative.igUnindent(indent_w);
         }
+        public static void UpdatePlatformWindows()
+        {
+            ImGuiNative.igUpdatePlatformWindows();
+        }
         public static void Value(string prefix, bool b)
         {
             byte* native_prefix;
@@ -13272,7 +13427,7 @@ namespace ImGuiNET
                 return ret != 0;
             }
         }
-        public static bool VSliderScalar(string label, Vector2 size, ImGuiDataType data_type, IntPtr v, IntPtr v_min, IntPtr v_max)
+        public static bool VSliderScalar(string label, Vector2 size, ImGuiDataType data_type, IntPtr p_data, IntPtr p_min, IntPtr p_max)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -13292,19 +13447,19 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format = null;
             float power = 1.0f;
-            byte ret = ImGuiNative.igVSliderScalar(native_label, size, data_type, native_v, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igVSliderScalar(native_label, size, data_type, native_p_data, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
             }
             return ret != 0;
         }
-        public static bool VSliderScalar(string label, Vector2 size, ImGuiDataType data_type, IntPtr v, IntPtr v_min, IntPtr v_max, string format)
+        public static bool VSliderScalar(string label, Vector2 size, ImGuiDataType data_type, IntPtr p_data, IntPtr p_min, IntPtr p_max, string format)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -13324,9 +13479,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -13346,7 +13501,7 @@ namespace ImGuiNET
             }
             else { native_format = null; }
             float power = 1.0f;
-            byte ret = ImGuiNative.igVSliderScalar(native_label, size, data_type, native_v, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igVSliderScalar(native_label, size, data_type, native_p_data, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -13357,7 +13512,7 @@ namespace ImGuiNET
             }
             return ret != 0;
         }
-        public static bool VSliderScalar(string label, Vector2 size, ImGuiDataType data_type, IntPtr v, IntPtr v_min, IntPtr v_max, string format, float power)
+        public static bool VSliderScalar(string label, Vector2 size, ImGuiDataType data_type, IntPtr p_data, IntPtr p_min, IntPtr p_max, string format, float power)
         {
             byte* native_label;
             int label_byteCount = 0;
@@ -13377,9 +13532,9 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            void* native_v = (void*)v.ToPointer();
-            void* native_v_min = (void*)v_min.ToPointer();
-            void* native_v_max = (void*)v_max.ToPointer();
+            void* native_p_data = (void*)p_data.ToPointer();
+            void* native_p_min = (void*)p_min.ToPointer();
+            void* native_p_max = (void*)p_max.ToPointer();
             byte* native_format;
             int format_byteCount = 0;
             if (format != null)
@@ -13398,7 +13553,7 @@ namespace ImGuiNET
                 native_format[native_format_offset] = 0;
             }
             else { native_format = null; }
-            byte ret = ImGuiNative.igVSliderScalar(native_label, size, data_type, native_v, native_v_min, native_v_max, native_format, power);
+            byte ret = ImGuiNative.igVSliderScalar(native_label, size, data_type, native_p_data, native_p_min, native_p_max, native_format, power);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
